@@ -1,0 +1,48 @@
+<div class="daily">
+	<h4>Лучшие публикации за последнии 24 часа</h4>
+	<ul class="navbar-nav">
+		{% set count = 0 %}
+		{% for post in posts %}
+			{% if post.isDaily and count < 10 %}
+				{% set count = count + 1 %}
+				<a href="{{ post.link }}">{{ count }}. {{ post.title }}</a>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</div>
+<div class="week">
+	<h4>Лучшие публикации за последнии 7 дней</h4>
+	<ul class="navbar-nav">
+		{% set count = 0 %}
+		{% for post in posts %}
+			{% if post.isWeek and count < 10 %}
+				{% set count = count + 1 %}
+				<a href="{{ post.link }}">{{ count }}. {{ post.title }}</a>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</div>
+<div class="month">
+	<h4>Лучшие публикации за 30 дней</h4>
+	<ul class="navbar-nav">
+		{% set count = 0 %}
+		{% for post in posts %}
+			{% if post.isMonth and count < 10 %}
+				{% set count = count + 1 %}
+				<a href="{{ post.link }}">{{ count }}. {{ post.title }}</a>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</div>
+<div class="year">
+	<h4>Лучшие публикации за год</h4>
+	<ul class="navbar-nav">
+		{% set count = 0 %}
+		{% for post in posts %}
+			{% if post.isYear and count < 10 %}
+				{% set count = count + 1 %}
+				<a href="{{ post.link }}">{{ count }}. {{ post.title }}</a>
+			{% endif %}
+		{% endfor %}
+	</ul>
+</div>

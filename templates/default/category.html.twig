@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Новости по категории: {{ category }}{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                <div class="wrapper">
+                    <a href="{{ url('default') }}">К списку новостей</a>
+                    <div class="count">
+                        Новости по категории {{ category }} в количестве: <span>{{ pagination.getTotalItemCount }}</span>
+                    </div>
+                    <span class="search_query" style="display: none;">Поиск в категории {{ category }} по запросу: <span>{{ searchQuery }}</span></span>
+                    <form action="{{ url('category', {'category': category}) }}" class="search-form">
+                        <div class="form-group has-feedback">
+                            <label for="search" class="sr-only">Search</label>
+                            <input type="text" class="form-control" name="query" id="search" placeholder="Поиск..." value="{{ searchQuery }}">
+                            <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                        </div>
+                    </form>
+
+                    <div id="posts">
+						{% include 'default/parts/search.html.twig' %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4">
+                {% include 'default/parts/sidebar.html.twig' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

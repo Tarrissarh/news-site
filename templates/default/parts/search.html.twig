@@ -1,0 +1,40 @@
+{% if pagination is not empty %}
+	{% for post in pagination %}
+		<div class="post">
+			<a href="{{ post.link }}" target="_blank" class="title">{{ post.title }}</a>
+			<span class="date">{{ post.pubDate.format('d.m.Y H:i') }}</span>
+
+			{% if post.category is not empty %}
+
+				<div class="category">
+					{% for category in post.category %}
+						<a href="/category/{{ category|replace({' ': '_'}) }}/">{{ category }}</a>
+					{% endfor %}
+				</div>
+
+			{% endif %}
+
+			<div class="description">{{ post.description|raw }}</div>
+		</div>
+	{% endfor %}
+
+	<div class="navigation">
+		{{ knp_pagination_render(pagination) }}
+	</div>
+{% else %}
+	<div class="count">Новостей по данному запросу не найдено.</div>
+{% endif %}
+
+<script type="text/javascript">
+	count = {{ pagination.getTotalItemCount }};
+	searchQuery = '{{ searchQuery }}';
+
+	document.querySelector('.count > span').outerHTML = '<span>' + count + '</span>';
+	document.querySelector('.search_query > span').outerHTML = '<span>' + searchQuery + '</span>';
+
+	if (count > 0 && searchQuery.length > 0) {
+		document.querySelector('.search_query').style.display = 'block';
+	} else {
+		document.querySelector('.search_query').style.display = 'none';
+	}
+</script>
