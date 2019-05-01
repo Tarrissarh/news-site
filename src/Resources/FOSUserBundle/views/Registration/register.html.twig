@@ -1,0 +1,6 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block fos_user_content %}
+	<div class="text-center"><a href="{{ path('default') }}">Главная</a></div>
+	{% include "@FOSUser/Registration/register_content.html.twig" %}
+{% endblock fos_user_content %}

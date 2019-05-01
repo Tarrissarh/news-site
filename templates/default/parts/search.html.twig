@@ -1,14 +1,14 @@
 {% if pagination is not empty %}
 	{% for post in pagination %}
 		<div class="post">
-			<a href="{{ post.link }}" target="_blank" class="title">{{ post.title }}</a>
+			<h3><a href="{{ post.link }}" target="_blank" class="title">{{ post.title }}</a></h3>
 			<span class="date">{{ post.pubDate.format('d.m.Y H:i') }}</span>
 
 			{% if post.category is not empty %}
 
 				<div class="category">
 					{% for category in post.category %}
-						<a href="/category/{{ category|replace({' ': '_'}) }}/">{{ category }}</a>
+						<a href="/category/{{ category|replace({' ': '_', '«': '--ml--', '»': '--mr--'}) }}/">{{ category }}</a>
 					{% endfor %}
 				</div>
 

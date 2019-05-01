@@ -53,7 +53,7 @@ class DefaultController extends AbstractController
 	 *     "/category/{category}/",
 	 *     name="category",
 	 *     requirements={
-	 *          "category"="[A-zА-я0-9\%\-]+"
+	 *          "category"="[A-zА-я0-9\%\-\_]+"
 	 *     }
 	 * )
 	 * @param Request $request
@@ -62,7 +62,8 @@ class DefaultController extends AbstractController
 	 */
 	public function category(Request $request, PaginatorInterface $paginator):Response
     {
-		$category       =   str_replace('_', ' ', $request->get('category'));
+		$category       =   str_replace(['_', '--ml--', '--mr--'], [' ', '«', '»'], $request->get('category'));
+
 	    $searchQuery    =   $request->get('query');
 	    $repository     =   $this->getDoctrine()->getRepository(Post::class);
 	    $posts          =   $repository->getActivityPosts();

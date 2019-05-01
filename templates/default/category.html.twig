@@ -9,10 +9,10 @@
                 <div class="wrapper">
                     <a href="{{ url('default') }}">К списку новостей</a>
                     <div class="count">
-                        Новости по категории {{ category }} в количестве: <span>{{ pagination.getTotalItemCount }}</span>
+                        Новости по категории «{{ category }}» в количестве: <span>{{ pagination.getTotalItemCount }}</span>
                     </div>
                     <span class="search_query" style="display: none;">Поиск в категории {{ category }} по запросу: <span>{{ searchQuery }}</span></span>
-                    <form action="{{ url('category', {'category': category}) }}" class="search-form">
+                    <form action="{{ url('category', {'category': category|replace({' ': '_', '«': '--ml--', '»': '--mr--'}) }) }}" class="search-form">
                         <div class="form-group has-feedback">
                             <label for="search" class="sr-only">Search</label>
                             <input type="text" class="form-control" name="query" id="search" placeholder="Поиск..." value="{{ searchQuery }}">
