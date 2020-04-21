@@ -13,60 +13,59 @@ use DateTimeImmutable;
 
 class ImportXmlDaily extends Command
 {
-	private const XML_URL = 'https://habr.com/ru/rss/best/daily/';
+    private const XML_URL = 'https://habr.com/ru/rss/best/daily/';
 
-	private $entityManager;
+    private $entityManager;
 
-	public function __construct(EntityManagerInterface $entityManager)
-	{
-		$this->entityManager = $entityManager;
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
 
-		parent::__construct();
-	}
+        parent::__construct();
+    }
 
-	protected function configure()
-	{
-		$this->setName('import:daily')
-			->setDescription('Import posts from rss.')
-			->setHelp('This command allows you to import daily posts...')
-		;
-	}
+    protected function configure()
+    {
+        $this->setName('import:daily')
+             ->setDescription('Import posts from rss.')
+             ->setHelp('This command allows you to import daily posts...');
+    }
 
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
-		$data   =   file_get_contents(self::XML_URL);
-		$xmls   =   simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA);
-		$items  =   $xmls->channel->item;
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $data  = file_get_contents(self::XML_URL);
+        $xmls  = simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $items = $xmls->channel->item;
 
-		if ($items !== null) {
-			$repository =   $this->entityManager->getRepository(Post::class);
-			$posts      =   $repository->findAll();
-			$arrayPosts =   $repository->findAllInArray();
+        if ($items !== null) {
+            $repository = $this->entityManager->getRepository(Post::class);
+            $posts      = $repository->findAll();
+            $arrayPosts = $repository->findAllInArray();
 
-			foreach ($items as $item) {
-				$searchResult = array_search($item->guid, array_column($arrayPosts, 'link'));
+            foreach ($items as $item) {
+                $searchResult = array_search($item->guid, array_column($arrayPosts, 'link'));
 
-				if ($searchResult !== false) {
-					$posts[$searchResult]->setIsDaily(true);
+                if ($searchResult !== false) {
+                    $posts[$searchResult]->setIsDaily(true);
 
-					$this->entityManager->persist($posts[$searchResult]);
-					$this->entityManager->flush();
-				} else {
-					$pubDate = new DateTimeImmutable($item->pubDate);
+                    $this->entityManager->persist($posts[$searchResult]);
+                    $this->entityManager->flush();
+                } else {
+                    $pubDate = new DateTimeImmutable($item->pubDate);
 
-					$post = new Post();
+                    $post = new Post();
 
-					$post->setTitle($item->title);
-					$post->setDescription($item->description);
-					$post->setLink($item->guid);
-					$post->setPubDate($pubDate);
-					$post->setCategory((array)$item->category);
-					$post->setIsDaily(true);
+                    $post->setTitle($item->title);
+                    $post->setDescription($item->description);
+                    $post->setLink($item->guid);
+                    $post->setPubDate($pubDate);
+                    $post->setCategory((array)$item->category);
+                    $post->setIsDaily(true);
 
-					$this->entityManager->persist($post);
-					$this->entityManager->flush();
-				}
-			}
-		}
-	}
+                    $this->entityManager->persist($post);
+                    $this->entityManager->flush();
+                }
+            }
+        }
+    }
 }

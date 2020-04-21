@@ -41,25 +41,25 @@ class Post
      */
     private $category = [];
 
-	/**
-	 * @ORM\Column(type="boolean", name="is_year")
-	 */
+    /**
+     * @ORM\Column(type="boolean", name="is_year")
+     */
     private $isYear = false;
 
-	/**
-	 * @ORM\Column(type="boolean", name="is_month")
-	 */
-	private $isMonth = false;
+    /**
+     * @ORM\Column(type="boolean", name="is_month")
+     */
+    private $isMonth = false;
 
-	/**
-	 * @ORM\Column(type="boolean", name="is_week")
-	 */
-	private $isWeek = false;
+    /**
+     * @ORM\Column(type="boolean", name="is_week")
+     */
+    private $isWeek = false;
 
-	/**
-	 * @ORM\Column(type="boolean", name="is_daily")
-	 */
-	private $isDaily = false;
+    /**
+     * @ORM\Column(type="boolean", name="is_daily")
+     */
+    private $isDaily = false;
 
     public function getId(): ?int
     {
